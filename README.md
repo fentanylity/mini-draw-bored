@@ -1,4 +1,8 @@
+2024-11-15
+Atenção: estou enfrentando um problema entre requisições onde estão se cruzando, recomendo esperar atualizações antes de rodar em sua máquina. :heart:
+
 ## Inicialização da aplicação
+
 ```bash
 npm i
 npm run build
