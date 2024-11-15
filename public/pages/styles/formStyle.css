@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+}
+
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/*
+form > label {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+*/
+
+form div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+form label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-right: 10px;
+    flex: 1; 
+}
+
+form input {
+    flex: 2; 
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 1rem;
+    border: 2px solid lightgray;
+}
+
+form input:focus {
+    outline: none;
+}
+
+button {
+    float: inline-end;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer; 
+    background-color: transparent;
+}
+
+button:not(:focus)::after {
+    content: 'Entrar';
+}
+
+button:focus::after,
+button:hover::after {
+    content: '>Entrar';
+}

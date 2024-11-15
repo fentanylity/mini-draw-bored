@@ -27,8 +27,8 @@ export async function connect() {
   const password = await bcrypt.hash(data.password, 10)
 
   await db.exec(`
-    INSERT OR REPLACE INTO users (id, name, email, password) 
-    VALUES (1, '${data.name}', '${data.email}', '${password}, ${data.role}')
+    INSERT OR REPLACE INTO users (id, name, email, password, role) 
+    VALUES (1, '${data.name}', '${data.email}', '${password}', ${data.role})
   `)
 
   instance = db

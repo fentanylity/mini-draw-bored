@@ -3,8 +3,8 @@ import * as token from "../controllers/authToken";
 
 const router = Router();
 
-router.get('/', token.createToken);
-router.get('/verifiy', token.verifyToken, (req, res) => {res.send('Token é valido.')});
-router.get('/refresh', token.refreshToken);
+router.post('/', token.createToken);
+router.post('/verifiy', token.verifyToken, (req, res) => {res.send('Token é valido.')});
+router.post('/refresh', token.refreshToken);
 
 export default router;

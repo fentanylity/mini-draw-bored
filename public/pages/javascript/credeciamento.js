@@ -19,5 +19,5 @@ form.addEventListener('submit', async (event) => {
   }
 
   localStorage.setItem('token', resposeData.token)
-  //location.href = '/home.html'
+  location.href = '/registrar.html'
 })
