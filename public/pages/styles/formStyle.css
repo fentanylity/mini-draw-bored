@@ -2,13 +2,32 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f9;
+}
+
+.radio-group input {
+    font-size: 0.9rem;
+}
+
+
+main {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f9;
 }
 
+nav {
+    padding-left: 1%;
+    border-bottom: solid 2px lightgray;
+    width: 100%;
+}
+
+
+nav section{
+    padding: 10px;
+    display: flex;
+}
 form {
     background-color: #ffffff;
     padding: 20px;
@@ -62,11 +81,46 @@ button {
     background-color: transparent;
 }
 
-button:not(:focus)::after {
-    content: 'Entrar';
+a {             
+    cursor: pointer;
 }
 
-button:focus::after,
-button:hover::after {
-    content: '>Entrar';
+li {
+    margin-inline: 2%;
+}
+li:focus,
+li:hover {
+    list-style-type: '> ';
+}
+
+button:focus::before,
+button:hover::before {
+    content: '>';
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
 }

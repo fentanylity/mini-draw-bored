@@ -1,13 +1,213 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <script src='../javascript/cadastro.js'></script>
+    <style>
+        /* Geral */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Sessão do Formulário */
+        .form-section {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        form .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        form label {
+            flex: 1;
+            font-weight: bold;
+            color: #555;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="password"] {
+            flex: 2;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .radio-group label {
+            margin-right: 15px;
+            font-weight: normal;
+        }
+
+        button.submit-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button.submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Sessão da Tabela */
+        .table-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        table td {
+            position: relative;
+        }
+
+        table .edit-btn,
+        table .delete-btn {
+            display: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        table .edit-btn {
+            left: 10px;
+            background-color: #ffc107;
+            color: white;
+        }
+
+        table .delete-btn {
+            right: 10px;
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Exibir botões ao passar o mouse */
+        table tr:hover .edit-btn,
+        table tr:hover .delete-btn {
+            display: block;
+        }
+
+        a{ 
+           cursor: pointer;  
+        }
+    </style>
+<script async src='./javascript/cadastro.js'></script>
 </head>
 <body>
-    olá!
+
+    <nav>
+        <section>
+            <li id="logoff"><a data-action="logoff">encerrar sessão</a></li>
+            <li id="register"><a>register.html</a></li>
+            <li id="public"><a>public_acess.html</a></li>
+            <li id="private"><a>private_acess</a></li>
+        </section>
+    </nav>
+
+    <!-- Sessão do Formulário -->
+    <section class="form-section">
+        <h1>Cadastrar Usuário</h1>
+        <form id="user-form">
+            <div class="form-group">
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" placeholder="Digite o nome" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Digite o email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" placeholder="Digite a senha" required>
+            </div>
+            <div class="form-group">
+                <label>Cargo:</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="role" value="0" required> Membro
+                    </label>
+                    <label>
+                        <input type="radio" name="role" value="1" required> Admin
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn" data-action="create">Cadastrar</button>
+        </form>
+    </section>
+
+    <!-- Sessão da Tabela -->
+    <section class="table-section">
+        <h1>Usuários Cadastrados</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Cargo</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="user-table-body">
+                <!-- Os usuários serão preenchidos dinamicamente -->
+            </tbody>
+        </table>
+    </section>
 </body>
+
 </html>

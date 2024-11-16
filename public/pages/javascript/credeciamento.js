@@ -1,7 +1,8 @@
-const form = document.querySelector('form')
+const form = document.querySelector('form');
+
 form.addEventListener('submit', async (event) => {
-  event.preventDefault()
-  
+  event.preventDefault();
+
   const response = await fetch('/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -9,15 +10,17 @@ form.addEventListener('submit', async (event) => {
       email: form.email.value,
       password: form.password.value
     })
-  })
+  });
 
-  const resposeData = await response.json()
+  const responseData = await response.json();
 
   if (!response.ok) {
-    alert("o servidor nos disse: " + resposeData.message)
-    return
+    alert("O servidor nos disse: " + responseData.message);
+    return;
   }
 
-  localStorage.setItem('token', resposeData.token)
-  location.href = '/registrar.html'
-})
+  localStorage.setItem('token', responseData.token);
+
+  // Após login, redireciona para a página protegida
+  location.href = '/registrar.html';
+});
