@@ -1,6 +1,23 @@
 2024-11-15
 Atenção: estou enfrentando um problema entre requisições onde estão se cruzando, recomendo esperar atualizações antes de rodar em sua máquina. :heart:
 
+2024-11-15
+Log: Perdi oque eu tinha feito, então estou reescrevendo boa parte, a estilizção será prejudicada por isso :_(
+
+TODO:
+- ~~Sessão~~
+    - ~~JWT token ser eliminado, ou, não interferir com outras sessões~~
+- ~~Rotas protegidas~~
+- "Listagem" 80% aka CRUD (ainda é preciso adaptar o UPDATE)
+- Visualização dos desenhos (db only)
+- Vinculo com a conta e desenhos (// optional)
+- Aplicação de desenho otimizada
+    - place-and-conquer algoritimo de bucket-fill // optional
+    - adicionar paletas
+    - controle de traço preciso (Equação gravitacional para ponto e massa do pincel/obejto)
+    - Timestamp de acordo com a duração do desenho (otimização quando carregado, >12mb)
+
+
 ## Inicialização da aplicação
 
 ```bash
@@ -13,7 +30,7 @@ npm run start
 
 Por padrão o usuário que pode realizar as funcionalidade de CRUD tem o cargo de Admin por padrão, para criar o usuário administrador é preciso incluir um diretório `auth` com um `.json` innitials-users, certifique que essa pasta esteje fora do fluxo principal.
 
-> Caso não haja o arquivo par inicialização, crie-la sequingo esse trecho de código no seu terminal preferido. 
+> Caso no terminal imprima que não há 'innitials-users', crie-le sequingo esse trecho de código no seu terminal preferido. 
 ``` bash
 #Linux
 
@@ -74,15 +91,4 @@ A visualização dos desenhos publicados podera ser feita acessando a `private_a
 Administradores podem realizar tarefas básicas de CRUD com os usuários, acessando o o `registrar.html` poderá ver a listagem, alterar a nome, email e senha (quando confirmada para evitar equivocos) acertido de (caso a senha não alterada) terá que confirmar a senha do usuário antes de atualizar qualquer do enunciados mencionados.
 
 
-TODO:
-- Sessão
-    - JWT token ser eliminado, ou, não interferir com outras sessões
-- Rotas protegidas
-- Listagem
-- Visualização dos desenhos (db only)
-- Vinculo com a conta e desenhos (// optional)
-- Aplicação de desenho otimizada
-    - place-and-conquer algoritimo de bucket-fill // optional
-    - adicionar paletas
-    - controle de traço preciso (Equação gravitacional para ponto e massa do pincel/obejto)
-    - Timestamp de acordo com a duração do desenho (otimização quando carregado, >12mb)
+bye :)
