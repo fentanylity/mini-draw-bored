@@ -1,228 +1,124 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f9;
-}
-
-.radio-group input {
-    font-size: 0.9rem;
-}
-
-
-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+* {
+    font-family: sans-serif;
+    box-sizing: border-box;
 }
 
 nav {
-    padding-left: 1%;
-    border-bottom: solid 2px lightgray;
     width: 100%;
+    padding: 15px 0 15px 0;
+    border-bottom: solid 1px;
+    & * {
+        display: inline-block;
+        margin-inline-end: 1rem;
+    }
 }
 
-
-nav section {
-    padding: 10px;
-    display: flex;
+nav li a:hover,
+nav li a:focus{
+    font-weight: bold;
 }
 
-form {
-    background-color: #ffffff;
+nav li a {
+    cursor: pointer;
+}
+
+dialog {
+    margin-top: 3rem;
+    border: none;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
     padding: 20px;
     width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/*
-form > label {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
     text-align: center;
+    & p {
+        display: inline;
+        text-align: left;
+    }
+    & menu {
+        display: flex;
+        justify-content: space-between;
+        padding: 0;
+    }
 }
-*/
 
-form div {
+main {
     display: flex;
-    align-items: center;
+    width: 100%;
+    gap: 15px;
+    & section {
+        display: block;
+    }
+}
+
+#user-form {
+    width: 300px;
+    margin-bottom: 3%;
+    & button {
+        float: right;
+    }
+}
+
+#user-form div {
+    margin-bottom: 5px;
+    display: flex;
     justify-content: space-between;
-    margin-bottom: 15px;
-}
+    align-items: center;
 
-form label {
-    font-size: 1.1rem;
-    font-style: italic;
-    margin-right: 10px;
-    flex: 1;
-}
+    & input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        flex: 2;
+        padding-inline: 12px;
+        font-size: 1rem;       
+    }
 
-form input {
-    flex: 2;
-    padding: 8px;
-    border-radius: 4px;
-    font-size: 1rem;
-    border: 2px solid lightgray;
-}
-
-form input:focus {
-    outline: none;
-}
-
-button {
-    float: inline-end;
-    padding: 10px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    background-color: transparent;
-}
-
-a {
-    cursor: pointer;
-}
-
-li {
-    margin-inline: 2%;
-}
-
-li:focus,
-li:hover {
-    list-style-type: '> ';
-}
-
-button:focus::before,
-button:hover::before {
-    content: '>';
-}
-
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table th,
-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-}
-
-table th {
-    background-color: #007bff;
-    color: #fff;
-}
-
-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-table tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Geral */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f9f9f9;
-}
-
-h1 {
-    text-align: center;
-    color: #333;
-}
-
-/* Sessão do Formulário */
-.form-section {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.radio-group label {
-    margin-right: 15px;
-    font-weight: normal;
-}
-
-/* Sessão da Tabela */
-.table-section {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    & label{
+        flex: 1;
+        font-weight: bold;
+    }
+    & .radio-group {
+        display: inline-block;
+    }
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    border: 1px solid #ddd;
 }
 
 table th,
 table td {
-    border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
 }
 
 table th {
-    background-color: #007bff;
-    color: white;
-}
-
-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-table tr:hover {
     background-color: #f1f1f1;
 }
-
-table td {
+table tr {
     position: relative;
+    border-bottom: 1px solid #ddd;
+
 }
 
-table .edit-btn,
-table .delete-btn {
-    display: none;
+table tr button{
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 5px 10px;
-    font-size: 0.9rem;
+    top: 0;
+    left: 0;
+    transform: translateY(50%);
+    /* Deus me perdoe*/
+
+    background-color: transparent;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
 }
 
-table .edit-btn {
-    left: 10px;
-    background-color: #ffc107;
-    color: white;
+table td:hover {
+    background-color: #f1f1f1;
+    vertical-align: middle;
 }
 
-table .delete-btn {
-    right: 10px;
-    background-color: #dc3545;
-    color: white;
-}
-
-/* Exibir botões ao passar o mouse */
-table tr:hover .edit-btn,
-table tr:hover .delete-btn {
-    display: block;
-}
-
-a {
-    cursor: pointer;
+table td {
+    cursor:pointer
 }

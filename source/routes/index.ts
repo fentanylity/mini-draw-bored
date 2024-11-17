@@ -6,7 +6,7 @@ import auth from "./auth"
 const router = Router();
 router.use(express.json())
 router.use(express.static(__dirname + '/../../public/pages'))
-router.get('/registrar.html', auth)
+router.use('/auth', auth)
 router.use('/users', userRouter)
 router.use('/token', tokenRouter)
 

@@ -1,7 +1,13 @@
-//import bcrypt from 'bcrypt'
+document.getElementById("logoff").addEventListener("click", () => {
+    localStorage.clear();
+    window.location.href = "/";
+});
 
-void async function () {
-    const token = localStorage.getItem('token');
+const token = localStorage.getItem("token");
+const tableBody = document.getElementById("user-table-body");
+
+// Validação de sessão
+async function validateSession() {
 
     if (!token) {
         window.location.href = "/";
@@ -11,118 +17,65 @@ void async function () {
     try {
         const response = await fetch("/token/verify", {
             method: "POST",
-            headers: {
-                "Authorization":  `Bearer ${token}`,
-            },
-
+            headers: { "Authorization": `Bearer ${token}` },
         });
 
         if (!response.ok) {
-            console.warn("Sessão invalida, logo você não está logado.")
             localStorage.clear();
-            throw new Error("Token inválido ou expirado.");
+            throw new Error("Sessão inválida. Redirecionando...");
         }
-
-        //const data = await response.json();
-        //console.log("Usuário logado:", data.user); // Exemplo de uso do payload decodificado
-    } catch (err) {
-        console.error(err);
-        window.location.href = "/"; // Redireciona para o login
+        const authResponse = await fetch("/users", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+    
+        if (!authResponse.ok) throw new Error("Erro ao buscar informações do usuário.");
+        
+        document.body.removeAttribute('style')
+    } catch (error) {
+        console.error(error);
+        location.href = "/";
     }
-}()
-// Valida sessão
+}
+validateSession();
 
-// Seleção de elementos
-const tableBody = document.getElementById('user-table-body');
-const mainForm = document.getElementById('main-form');
-const token = localStorage.getItem('token');
-
-// Função para carregar usuários
+// Função para carregar usuários na tabela
 async function loadUsers() {
-    const url = '/users';
-    const headers = { 'Authorization': `Bearer ${token}` };
-
     try {
-        const response = await fetch(url, { headers });
-        if (!response.ok) {
-            console.error('Erro ao carregar usuários:', response.statusText);
-            return;
-        }
+        const response = await fetch("/users", {
+            headers: { "Authorization": `Bearer ${token}` },
+        });
+
+        if (!response.ok) throw new Error("Erro ao carregar usuários.");
+
         const users = await response.json();
 
-        // Preencher a tabela com os dados dos usuários
+        // Limpar tabela antes de preencher
+        tableBody.innerHTML = "";
         users.forEach(user => {
-            const row = document.createElement('tr');
+            const row = document.createElement("tr");
             row.dataset.id = user.id;
             row.innerHTML = `
-        <td class="name">${user.name}</td>
-        <td class="email">${user.email}</td>
-        <td class="role">${user.role === 1 ? 'Admin' : 'Membro'}</td>
-        <td>
-          <button class="edit-btn" data-action="update">Editar</button>
-          <button class="delete-btn" data-action="delete">Excluir</button>
-        </td>
-      `;
+                <button class="delete-btn" data-action="delete">🗑️</button>
+                <td class="name">${user.name}</td>
+                <td class="email">${user.email}</td>
+                <td class="role">${user.role === 1 ? "Admin" : "Membro"}</td>
+            `;
             tableBody.appendChild(row);
         });
     } catch (error) {
-        console.error('Erro na requisição:', error);
+        console.error(error);
     }
 }
+loadUsers();
 
-// Adiciona funcionalidade de CRUD nos botões
-document.addEventListener('click', async (event) => {
-    const button = event.target;
-    const action = button.dataset.action;
-
-    if (action === 'logoff') {
-        localStorage.removeItem("token"); 
-        window.location.href = "/"; 
-    }
-
-    if (action === 'delete') {
-        const row = button.closest('tr');
-        const id = row.dataset.id;
-        const url = `/users/${id}`;
-        const method = 'DELETE';
-        const headers = { 'Authorization': `Bearer ${token}` };
-
-        try {
-            const response = await fetch(url, { method, headers });
-            if (!response.ok) {
-                console.error('Erro ao excluir usuário:', response.statusText);
-                return;
-            }
-            row.remove();
-        } catch (error) {
-            console.error('Erro na requisição:', error);
-        }
-    }
-
-    if (action === 'update') {
-        const row = button.closest('tr');
-        const id = row.dataset.id;
-
-        // Abrir formulário para edição
-        const name = row.querySelector('.name').textContent;
-        const email = row.querySelector('.email').textContent;
-        const role = row.querySelector('.role').textContent === 'Admin' ? '1' : '0';
-
-        mainForm.name.value = name;
-        mainForm.email.value = email;
-        mainForm.role.value = role;
-        mainForm.dataset.id = id;
-        mainForm.dataset.action = 'update'; // Marcar como modo de atualização
-    }
-});
-
+const mainForm = document.getElementById('user-form')
 // Submissão do formulário principal
-document.addEventListener('submit', async (event) => {
+mainForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const form = event.target;
     const action = form.dataset.action || 'create';
-    const url = action === 'create' ? '/users' : `/users/${form.dataset.id}`;
-    const method = action === 'create' ? 'POST' : 'PUT';
+    const url = '/users' 
+    const method = 'POST';
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer: ${token}`
@@ -137,24 +90,20 @@ document.addEventListener('submit', async (event) => {
     try {
         const response = await fetch(url, { method, headers, body });
         if (!response.ok) {
-            console.error(`Erro ao ${action === 'create' ? 'cadastrar' : 'atualizar'} usuário:`, response.statusText);
+            console.error('Erro ao cadastrar usuário:', response.statusText);
             return;
         }
 
         const responseData = await response.json();
 
         if (action === 'create') {
-            // Adicionar nova linha à tabela
             const newRow = document.createElement('tr');
             newRow.dataset.id = responseData.id;
             newRow.innerHTML = `
+        <button class="delete-btn" data-action="delete">🗑️</button>
         <td class="name">${responseData.name}</td>
         <td class="email">${responseData.email}</td>
         <td class="role">${responseData.role === 1 ? 'Admin' : 'Membro'}</td>
-        <td>
-          <button class="edit-btn" data-action="update">Editar</button>
-          <button class="delete-btn" data-action="delete">Excluir</button>
-        </td>
       `;
             tableBody.appendChild(newRow);
         } else {
@@ -174,5 +123,106 @@ document.addEventListener('submit', async (event) => {
     }
 });
 
-// Carregar os usuários na inicialização
-loadUsers();
+const dialog = document.getElementById("customDialog");
+const dialogInput = document.getElementById("dialogInput");
+const dialogField = document.getElementById("dialogField");
+const proceedBtn = document.getElementById("proceedBtn");
+
+let currentRow = null;
+let currentFieldIndex = 0;
+let fieldsToEdit = []
+const fieldOrder = ["name", "email", "role"]; // Ordem dos campos para edição
+
+async function deleteRow(clickedElement) {
+    const row = clickedElement.closest("tr");
+    const id = row.dataset.id;
+    const url = `/users/${id}`;
+    const method = "DELETE";
+    const headers = { Authorization: `Bearer ${token}` };
+   
+        try {
+            const response = await fetch(url, { method, headers });
+
+            if (!response.ok) {
+                console.error("Erro ao excluir usuário:", response.statusText);
+                return;
+            }
+
+            row.remove();
+            console.log("Usuário excluído com sucesso!");
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+        }
+}
+// Abrir o diálogo ao clicar em uma célula
+document.getElementById("user-table-body").addEventListener("click", (event) => {
+    const clickedElement = event.target;
+    if (clickedElement.tagName === "TD") {
+        currentRow = clickedElement.closest("tr");
+        currentFieldIndex = fieldOrder.indexOf(clickedElement.className);
+
+        if (currentFieldIndex === -1) return; // Clicou fora de campos editáveis
+
+        fieldsToEdit = [...fieldOrder];
+        fieldsToEdit.splice(currentFieldIndex, 1);
+
+        // Configurar o diálogo com o campo clicado
+        dialogInput.value = clickedElement.textContent;
+        dialogField.textContent = `Editar ${clickedElement.className}`;
+        dialog.showModal();
+    }
+
+    if (clickedElement.classList.contains("delete-btn")) 
+        deleteRow(clickedElement)
+});
+
+// Atualizar célula no frontend ao clicar em "Prosseguir"
+proceedBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (fieldsToEdit.length > 0) {
+        // Atualiza o valor do campo atual
+        const currentField = fieldOrder[currentFieldIndex];
+        currentRow.querySelector(`.${currentField}`).textContent = dialogInput.value;
+
+        // Atualiza os índices e muda o campo atual
+        currentFieldIndex = fieldOrder.indexOf(fieldsToEdit.shift());
+        const nextField = fieldOrder[currentFieldIndex];
+        dialogField.textContent = `Editar ${nextField}`;
+        dialogInput.value = currentRow.querySelector(`.${nextField}`).textContent;
+    } 
+    else {
+        dialog.close();
+    }
+});
+
+// Fazer uma única requisição PUT ao clicar em "Confirmar"
+dialog.addEventListener("close", async () => {
+    if (dialog.returnValue === "confirm" && currentRow || !fieldsToEdit.length > 0) {
+        if(dialog.returnValue === "confirm") 
+            currentRow.querySelector(`.${fieldOrder[currentFieldIndex]}`).textContent = dialogInput.value;
+        // Coletar os valores atualizados da linha
+        const id = currentRow.dataset.id;
+        const updatedData = {
+            name: currentRow.querySelector(".name").textContent,
+            email: currentRow.querySelector(".email").textContent,
+            role: currentRow.querySelector(".role").textContent === "Admin" ? 1 : 0,
+        };
+
+        // Enviar a requisição PUT com os dados atualizados
+        try {
+            const response = await fetch(`/users/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+                body: JSON.stringify(updatedData),
+            });
+
+            if (!response.ok) throw new Error("Erro ao atualizar usuário.");
+            console.log("Atualização concluída:", updatedData);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+});

@@ -7,68 +7,77 @@
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="stylesheet" href="./styles/formStyle.css">
-    
-<script async src='./javascript/cadastro.js'></script>
+    <script async src='./javascript/cadastro.js'></script>
 </head>
-<body>
-
+<body style="opacity: 0;">
     <nav>
-        <section>
-            <li id="logoff"><a data-action="logoff">encerrar sessão</a></li>
-            <li id="register"><a>register.html</a></li>
-            <li id="public"><a>public_acess.html</a></li>
-            <li id="private"><a>private_acess</a></li>
-        </section>
+        <li><a id="logoff">  [encerrar sessão]</a></li>
+        <li><a id="register">[register.html]</a></li>
+        <li><a id="public">  [public_acess.html]</a></li>
+        <li><a id="private"> [private_acess]</a></li>
     </nav>
 
-    <!-- Sessão do Formulário -->
-    <section class="form-section">
-        <h1>Cadastrar Usuário</h1>
-        <form id="user-form">
-            <div class="form-group">
-                <label for="name">Nome:</label>
-                <input type="text" id="name" name="name" placeholder="Digite o nome" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Digite o email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" placeholder="Digite a senha" required>
-            </div>
-            <div class="form-group">
-                <label>Cargo:</label>
-                <div class="radio-group">
-                    <label>
-                        <input type="radio" name="role" value="0" required> Membro
-                    </label>
-                    <label>
-                        <input type="radio" name="role" value="1" required> Admin
-                    </label>
-                </div>
-            </div>
-            <button type="submit" class="submit-btn" data-action="create">Cadastrar</button>
+    <dialog id="customDialog">
+        <form method="dialog">
+          <h2>Editar Campo</h2>
+          <div>
+              <p id="dialogField">Campo</p>
+              <input type="text" autofocus id="dialogInput" />
+          </div>
+          <menu>
+            <button value="confirm">Confirmar</button>
+            <button value="cancel">Cancelar</button>
+            <button id="proceedBtn">Prosseguir</button>
+          </menu>
         </form>
-    </section>
+      </dialog>      
 
-    <!-- Sessão da Tabela -->
-    <section class="table-section">
-        <h1>Usuários Cadastrados</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Cargo</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody id="user-table-body">
-                <!-- Os usuários serão preenchidos dinamicamente -->
-            </tbody>
-        </table>
-    </section>
+    <main>
+        <!-- Sessão do Formulário -->
+        <section class="form-section">
+            <h1>Cadastrar Usuário</h1>
+            <form id="user-form">
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" name="name" placeholder="Digite o nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Digite o email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" placeholder="Digite a senha" required>
+                </div>
+                <div class="form-group">
+                    <label></label>
+                    <div class="radio-group">
+                        <input type="radio" name="role" value="0" required> Membro
+                        <input type="radio" name="role" value="1" required> Admin
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn" data-action="create">Cadastrar</button>
+            </form>
+        </section>
+    
+        <!-- Sessão da Tabela -->
+        <section class="table-section">
+            <h1>Usuários Cadastrados</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Cargo</th>
+                    </tr>
+                </thead>
+                <tbody id="user-table-body">
+                    <!-- Os usuários serão preenchidos dinamicamente -->
+                </tbody>
+            </table>
+        </section>
+    </main>
 </body>
 
 </html>

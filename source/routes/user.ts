@@ -5,7 +5,7 @@ import authorizeRole from "../middleware/authRole";
 const router = Router();
 
 // Rotas com verificação de role
-router.get("/", user.getManyUsers);
+router.get("/",authorizeRole(1), user.getManyUsers);
 router.post("/", authorizeRole(1), user.createUser);
 router.put("/:id", authorizeRole(1), user.updateUser);
 router.delete("/:id", authorizeRole(1), user.deleteUser);

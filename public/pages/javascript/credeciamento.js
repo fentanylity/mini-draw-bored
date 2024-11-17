@@ -20,7 +20,27 @@ form.addEventListener('submit', async (event) => {
   }
 
   localStorage.setItem('token', responseData.token);
+  const token = responseData.token;
+  try {
+    const response = await fetch("/auth/user", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-  // Após login, redireciona para a página protegida
-  location.href = '/registrar.html';
+    if (!response.ok) throw new Error("Erro ao buscar informações do usuário.");
+
+    const { role } = await response.json();
+
+    console.log(role)
+    // Redirecionar com base no cargo
+    if (role == 1) {
+      location.href = "/registrar.html";
+    } else if (role == 0) {
+      location.href = "/public_acess.html";
+    }
+  } catch (error) {
+    console.error("Erro ao determinar o cargo do usuário:", error);
+    window.location.href = "/";
+  }
+  //const respondeUrl = await authResponse.json()
+  //console.log(respondeUrl)
 });

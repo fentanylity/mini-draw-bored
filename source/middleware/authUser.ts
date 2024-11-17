@@ -25,14 +25,39 @@ export const createUser: RequestHandler = async (request, resolve) => {
 }
 
 export const updateUser: RequestHandler = async (request, resolve) => {
-  const db = await connect()
-  const { name, email, role } = request.body
-  const { id } = request.params
-  await db.run('UPDATE users SET name = ?, email = ? role = ? WHERE id = ?', [name, email, role, id])
-  const user = await db.get('SELECT * FROM users WHERE id = ?', [id])
+  const db = await connect();
+  const { name, email, role } = request.body;
+  const { id } = request.params;
+  console.log(name, email, role)
 
-  resolve.json(user)
-}
+  try {
+    // Obter o usuário atual do banco
+    const existingUser = await db.get('SELECT * FROM users WHERE id = ?', [id]);
+
+    if (!existingUser) {
+      return resolve.status(404).json({ message: "Usuário não encontrado." });
+    }
+
+
+    // Use os valores existentes se o cliente não enviá-los
+    const updatedName = name || existingUser.name;
+    const updatedEmail = email || existingUser.email;
+    const updatedRole = role !== undefined ? role : existingUser.role;
+
+    // Atualizar no banco
+    await db.run(
+      'UPDATE users SET name = ?, email = ?, role = ? WHERE id = ?',
+      [updatedName, updatedEmail, updatedRole, id]
+    );
+
+    const updatedUser = await db.get('SELECT * FROM users WHERE id = ?', [id]);
+    resolve.json(updatedUser);
+  } catch (error) {
+    console.error("Erro ao atualizar usuário:", error);
+    resolve.status(500).json({ message: "Erro ao atualizar o usuário." });
+  }
+};
+
 
 export const deleteUser: RequestHandler = async (request, resolve) => {
   const db = await connect()
